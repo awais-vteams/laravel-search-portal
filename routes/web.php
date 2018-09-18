@@ -17,10 +17,10 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
+Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::resource('categories', 'CategoriesController');
+    Route::get('/change-password','HomeController@changePasswordForm')->name('change-password');
+    Route::post('/change-password','HomeController@changePassword')->name('change-password');
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('dashboard', function () {
-    // Only verified users may enter...
-})->middleware('verified');
-
-Route::resource('categories', 'CategoriesController');
