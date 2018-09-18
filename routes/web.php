@@ -19,6 +19,7 @@ Auth::routes(['verify' => true]);
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::resource('categories', 'CategoriesController');
+    Route::resource('details', 'DetailsController');
     Route::get('/change-password','HomeController@changePasswordForm')->name('change-password');
     Route::post('/change-password','HomeController@changePassword')->name('change-password');
 });
