@@ -1,14 +1,89 @@
-
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 // Variables
 @import 'variables';
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+.full-height {
+  height: 100vh;
+}
+
+.full-width {
+  width: 100ch;
+}
+
+.flex-center {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.position-ref {
+  position: relative;
+}
+
 .navbar-laravel {
-  background-color: #fff;
+  background-color: $dark;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+
+  .navbar-brand {
+    color: $white;
+  }
+}
+
+.top-right {
+  position: absolute;
+  right: 10px;
+  top: 18px;
+}
+
+.content {
+  text-align: center;
+}
+
+.title {
+  font-size: 84px;
+}
+
+.links > a {
+  color: #636b6f;
+  padding: 0 25px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .1rem;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.m-b-md {
+  margin-bottom: 30px;
+}
+
+input[type='text'], select, textarea {
+  border-radius: 0;
+  outline: none;
+  box-shadow: none;
+}
+
+.btn {
+  border-radius: 0;
+}
+.material-icons {
+  font-size: 1.2rem;
+}
+
+.footer {
+  padding: 2.5rem 0;
+  color: #999;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-top: .05rem solid #e5e5e5;
+}
+
+b,
+strong {
+  font-weight: bold;
 }
