@@ -21,4 +21,9 @@ class Category extends Model
     protected $fillable = [
         'name', 'description'
     ];
+
+    public function userCategories()
+    {
+        return $this->belongsTo('App\Models\UserCategories', 'category_id');
+    }
 }

@@ -21,7 +21,7 @@
                                 <h4 class="sub-title">Update Details</h4>
                             </div>
 
-                            @include('details.form',  [$userCategories])
+                            @include('details.form',  [$userCategories, $categories])
 
                         </form>
                     </div>

@@ -20,7 +20,7 @@
                                 <h4 class="sub-title">Details</h4>
                             </div>
 
-                            @include('details.form', [$userCategories])
+                            @include('details.form', [$userCategories, $categories])
 
                         </form>
                     </div>

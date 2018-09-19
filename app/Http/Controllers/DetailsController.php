@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\CategoryDetails;
+use App\Models\Images;
 use App\Models\UserCategories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DetailsController extends Controller
 {
@@ -14,7 +19,7 @@ class DetailsController extends Controller
      */
     public function index()
     {
-        $userCategories = UserCategories::latest()->paginate(20);
+        $userCategories = UserCategories::with(['details', 'category'])->latest()->paginate(20);
         return view('details.index', compact('userCategories'));
     }
 
@@ -26,7 +31,8 @@ class DetailsController extends Controller
     public function create()
     {
         $userCategory = new UserCategories();
-        return view('details.create', compact('userCategory'));
+        $categories = Category::pluck("name", "id")->toArray();
+        return view('details.create', compact('userCategory', 'categories'));
     }
 
     /**
@@ -37,12 +43,29 @@ class DetailsController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(UserCategories::$rules);
+        request()->validate(CategoryDetails::$rules);
 
-        $userCategory = UserCategories::create($request->all());
+        DB::transaction(function () use ($request) {
+            $catDetails = CategoryDetails::create($request->all());
+            UserCategories::create([
+                'user_id' => Auth::id(),
+                'category_id' => $request->category_id,
+                'category_detail_id' => $catDetails->id,
+            ]);
+
+            foreach ($request->file('images') as $image) {
+                $name = str_random() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('/images'), $name);
+
+                Images::create([
+                    'category_detail_id' => $catDetails->id,
+                    'path' => $name,
+                ]);
+            }
+        });
 
         return redirect()->route('details.index')
-            ->with('success', 'UserCategories created successfully.');
+            ->with('success', 'Details submitetd successfully.');
     }
 
     /**
@@ -76,7 +99,7 @@ class DetailsController extends Controller
      */
     public function update(Request $request, UserCategories $userCategory)
     {
-        request()->validate($userCategory::$rules);
+        request()->validate(CategoryDetails::$rules);
 
         $userCategory->update($request->all());
 

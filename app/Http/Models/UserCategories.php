@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserCategories extends Model
 {
     protected $fillable = [
-        'user_id', 'category_relation_id'
+        'user_id', 'category_id', 'category_detail_id'
     ];
 
     /**
@@ -19,10 +19,18 @@ class UserCategories extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function category()
+    {
+        return $this->hasOne('App\Models\Category', 'id', 'category_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
      */
     public function details()
     {
-        return $this->hasMany('App\Models\CategoryRelations');
+        return $this->hasOne('App\Models\CategoryDetails', 'id', 'category_detail_id');
     }
 }

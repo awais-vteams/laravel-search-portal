@@ -35,6 +35,7 @@
                                 </caption>
                                 <thead class="thead-light">
                                     <tr>
+                                        <th scope="col">Type</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Description</th>
                                         <th scope="col">Action</th>
@@ -43,8 +44,9 @@
                                 <tbody>
                                      @foreach ($userCategories as $category)
                                             <tr>
-                                                <td>{{ $category->name }}</td>
-                                                <td>{{ $category->description }}</td>
+                                                <td>{{ $category->category->name }}</td>
+                                                <td>{{ $category->details->name }}</td>
+                                                <td>{{ $category->details->description }}</td>
                                                 <td class="text-right">
                                                     <form action="{{ route('details.destroy',$category->id) }}" method="POST">
                                                         <a class="btn btn-primary" href="{{ route('details.show',$category->id) }}"><i class="material-icons">visibility</i></a>
