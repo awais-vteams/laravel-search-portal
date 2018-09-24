@@ -71,23 +71,26 @@ class DetailsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\UserCategories $userCategory
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(UserCategories $userCategory)
+    public function show($id)
     {
+        $userCategory = UserCategories::with(['details', 'images'])->findOrFail($id);
         return view('details.show', compact('userCategory'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\UserCategories $userCategory
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(UserCategories $userCategory)
+    public function edit($id)
     {
-        return view('userCategories.edit', compact('userCategory'));
+        $userCategories = UserCategories::with(['details', 'images'])->findOrFail($id);
+        $categories = Category::pluck("name", "id")->toArray();
+        return view('details.edit', compact('userCategories', 'categories'));
     }
 
     /**

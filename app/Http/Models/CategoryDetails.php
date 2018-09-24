@@ -13,7 +13,7 @@ class CategoryDetails extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description'
+        'name', 'description', 'lat', 'lng'
     ];
 
     static $rules = [

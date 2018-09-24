@@ -21,6 +21,8 @@ class CreateCategoryDetailsTable extends Migration
             $table->increments('id');
             $table->string('name', 255)->index();
             $table->string('description', 500)->index();
+            $table->string('lat', 50)->nullable();
+            $table->string('lng', 50)->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
             $table->softDeletes();
