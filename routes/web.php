@@ -25,3 +25,4 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/search','SearchController@index')->name('search');

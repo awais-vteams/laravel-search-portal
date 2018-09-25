@@ -55,7 +55,6 @@
   font-weight: 600;
   letter-spacing: .1rem;
   text-decoration: none;
-  text-transform: uppercase;
 }
 
 .m-b-md {
@@ -90,4 +89,8 @@ strong {
 
 #map {
   height: 100%;
+}
+
+a:hover {
+  text-decoration: none;
 }

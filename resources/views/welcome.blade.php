@@ -8,8 +8,8 @@
                     {{ config('app.name', 'Laravel') }}
                 </div>
                 <div class="row">
-                    <form action="">
-                        <input type="text" name="" id="" placeholder="Search Restaurants, Schools, Doctors ..." class="form-control-lg full-width">
+                    <form action="{{ route('search') }}">
+                        <input type="text" name="q" id="q" placeholder="Search Restaurants, Schools, Doctors ..." class="form-control-lg full-width">
                     </form>
                 </div>
 

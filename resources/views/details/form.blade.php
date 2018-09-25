@@ -5,25 +5,25 @@
             {{ Form::select('category_id', $categories, $userCategories->category_id, ['class' => 'form-control input-lg']) }}
         </div>
 
-        <div class="form-group}}">
+        <div class="form-group">
             {{ Form::label('name') }}
             {{ Form::text('name', $userCategories->details->name, ['class' => "form-control input-lg" . ($errors->has('name') ? ' is-invalid' : ''), 'placeholder' => 'Category Name']) }}
             {!! $errors->first('name', '<p class="invalid-feedback">:message</p>') !!}
         </div>
 
-        <div class="form-group ">
+        <div class="form-group">
             {{ Form::label('Description') }}
             {{ Form::textarea('description', $userCategories->details->description, ['class' => 'form-control input-lg' . ($errors->has('description') ? ' is-invalid' : ''), 'placeholder' => 'Description']) }}
             {!! $errors->first('description', '<p class="invalid-feedback">:message</p>') !!}
         </div>
 
-        <div class="form-group}}">
+        <div class="form-group">
             {{ Form::label('tags') }}
-            {{ Form::text('tags', $userCategories->details->name, ['class' => "form-control input-lg" . ($errors->has('name') ? ' is-invalid' : ''), 'placeholder' => 'Tags', 'data-role' => 'tagsinput']) }}
+            {{ Form::text('tags', $userCategories->details->tags, ['class' => "form-control input-lg" . ($errors->has('name') ? ' is-invalid' : ''), 'placeholder' => 'Tags', 'data-role' => 'tagsinput']) }}
             {!! $errors->first('tags', '<p class="invalid-feedback">:message</p>') !!}
         </div>
 
-        <div class="custom-file">
+        <div class="form-group custom-file">
             {{ Form::file('images[]', ['class' => 'custom-file-input', 'id' => 'fileimages', 'multiple', 'accept' => 'image/*']) }}
             <label class="custom-file-label" for="fileimages">Choose images</label>
         </div>
@@ -49,8 +49,14 @@
     <button type="submit" class="btn btn-primary">Submit</button>
 </div>
 
+@section('header')
+    <link href="{{ asset('css/tagsinput.css') }}" rel="stylesheet">
+@endsection
+
 @section('script')
     <script src="//maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_API_KEY') }}&libraries=places&callback=initAutocomplete" async defer></script>
+    <script src="{{ asset('js/tagsinput.js') }}" type="text/javascript"></script>
+
     <script type="text/javascript">
 
         $('#pac-input').on('keypress', function(e) {

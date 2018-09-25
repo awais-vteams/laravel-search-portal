@@ -26,4 +26,12 @@ class Category extends Model
     {
         return $this->belongsTo('App\Models\UserCategories', 'category_id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     */
+    public function tags()
+    {
+        return $this->morphToMany('App\Models\Tags', 'taggable');
+    }
 }

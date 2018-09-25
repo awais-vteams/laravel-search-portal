@@ -11,10 +11,7 @@
             <div class="card-header">
                 <div class="col-lg-12">
                     <div class="float-left">
-                        <h4>{{ __($category->name) }}</h4>
-                    </div>
-                    <div class="float-right">
-                        <a class="btn btn-primary" href="{{ route('categories.index') }}"> Back</a>
+                        <h4>{{ __($userCategory->category->name) }}</h4>
                     </div>
                 </div>
             </div>
@@ -23,11 +20,11 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <strong>Name:</strong>
-                        {{ __($category->name) }}
+                        {{ __($userCategory->details->name) }}
                     </div>
                     <div class="form-group">
                         <strong>Description:</strong>
-                        {{ __($category->description) }}
+                        {{ __($userCategory->details->description) }}
                     </div>
                 </div>
             </div>

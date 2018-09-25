@@ -19,14 +19,16 @@ class CreateCategoryDetailsTable extends Migration
             $table->collation = 'utf8_unicode_ci';
 
             $table->increments('id');
-            $table->string('name', 255)->index();
-            $table->string('description', 500)->index();
+            $table->string('name', 255);
+            $table->string('description', 500);
             $table->string('lat', 50)->nullable();
             $table->string('lng', 50)->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });
+
+        \Illuminate\Support\Facades\DB::statement('ALTER TABLE category_details ADD FULLTEXT search(name, description)');
     }
 
     /**

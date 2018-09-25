@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\CategoryDetails;
 use App\Models\Images;
+use App\Models\Tags;
 use App\Models\UserCategories;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,6 +63,12 @@ class DetailsController extends Controller
                     'path' => $name,
                 ]);
             }
+
+            $tagNames = explode(',', $request->tags);
+            foreach ($tagNames as $tagName) {
+                $tag = Tags::firstOrCreate(['name' => $tagName]);
+                $catDetails->tags()->save($tag);
+            }
         });
 
         return redirect()->route('details.index')
@@ -90,6 +97,7 @@ class DetailsController extends Controller
     {
         $userCategories = UserCategories::with(['details', 'images'])->findOrFail($id);
         $categories = Category::pluck("name", "id")->toArray();
+        $userCategories->details->tags = $userCategories->details->tags->pluck("name")->implode(',');
         return view('details.edit', compact('userCategories', 'categories'));
     }
 
@@ -97,14 +105,25 @@ class DetailsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  \App\Models\UserCategories $userCategory
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, UserCategories $userCategory)
+    public function update(Request $request, $id)
     {
         request()->validate(CategoryDetails::$rules);
 
-        $userCategory->update($request->all());
+        $userCategory = UserCategories::with(['details', 'images'])->findOrFail($id);
+        $details = $userCategory->details->fill($request->all());
+        $userCategory->details()->save($details);
+
+        $tagNames = explode(',', $request->tags);
+        $tagIds = [];
+        foreach ($tagNames as $tagName) {
+            $tag = Tags::firstOrCreate(['name' => $tagName]);
+            $tagIds[] = $tag->id;
+        }
+
+        $details->tags()->syncWithoutDetaching($tagIds);
 
         return redirect()->route('details.index')
             ->with('success', 'UserCategories updated successfully');
