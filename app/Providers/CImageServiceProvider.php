@@ -28,6 +28,6 @@ class CImageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->alias(CImageService::class, 'c-image');
+        $this->app->alias(CImageService::class, 'cimage');
     }
 }
