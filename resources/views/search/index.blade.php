@@ -17,16 +17,16 @@
                 </div>
                 <div class="row pl-3 pt-5">
                     @foreach ($data as $items)
-                        <div class="col-md-3">
+                        <div class="col-md-3 mb-4">
                             <a href="{{ route('details.show', ['id' => $items->userCategory->id]) }}">
                                 <div class="card">
-                                    @if($items->userCategory->images->count())
-                                        <img class="card-img-top" src="{{ asset('images/'. $items->userCategory->images[0]->path) }}" alt="Image">
+                                    @if($items->images->count())
+                                        <img class="card-img-top" src="{{ $CImage->getImagePath($items->images[0]->path) }}" alt="Image">
                                     @endif
                                     <div class="card-body">
                                         <div class="">
                                             <div class="text-body"><strong>{!! $items->userCategory->category->name !!}</strong></div>
-                                            {!! $items->name  !!}
+                                            <span>{!! $items->name  !!}</span>
                                             <p class="text-body">{!! str_limit($items->userCategory->category->description) !!}</p>
                                         </div>
                                         <div class="">

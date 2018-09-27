@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+
 /*use Laravel\Scout\Searchable;*/
 
 class CategoryDetails extends Model
 {
-    use SoftDeletes/*, Searchable*/;
+    use SoftDeletes/*, Searchable*/
+        ;
 
     /**
      * @var array
@@ -34,7 +36,13 @@ class CategoryDetails extends Model
     public function scopeQuery($query, $q)
     {
         $filter_var = filter_var(preg_replace("/[\"'%()@$.!&?_: #\/-]/", "", $q), FILTER_SANITIZE_STRING);
-        return $query->whereRaw("MATCH(name,description) AGAINST(? IN BOOLEAN MODE)", [$filter_var . '*']);
+        return $query->whereRaw("MATCH(name,description) AGAINST(? IN BOOLEAN MODE)", [$filter_var . '*'])
+            ->orWhereHas('tags', function ($subquery) use ($filter_var) {
+                $subquery->whereRaw("MATCH(name) AGAINST(? IN BOOLEAN MODE)", [$filter_var . '*']);
+            })
+            ->orWhereHas('userCategory.category', function ($subquery) use ($filter_var) {
+                $subquery->where('name', 'like', '%'.$filter_var.'%');
+            });
     }
 
     /**
@@ -60,7 +68,7 @@ class CategoryDetails extends Model
      */
     public function userCategory()
     {
-        return $this->hasOne('App\Models\UserCategories', 'category_detail_id');
+        return $this->hasOne('App\Models\UserCategories', 'category_detail_id', 'id');
     }
 
     /**
